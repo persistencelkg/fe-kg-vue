@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
 import {ref} from "vue";
-
 const lkg = ref(import.meta.env.VITE_LKG)
 const wkx =  ref(import.meta.env.WKX)
 

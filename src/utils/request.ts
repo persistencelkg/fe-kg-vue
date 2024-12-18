@@ -1,7 +1,7 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from 'axios'
 // import { ElMessage, ElMessageBox } from 'element-plus'
 import {message} from 'ant-design-vue'
-import {SSO_BASE_URL} from "../const/const.ts";
+import {SSO_LOGIN_URL} from "../const/const.ts";
 
 
 const httpCode: Record<number, string> = {
@@ -18,7 +18,7 @@ const httpCode: Record<number, string> = {
 // ts 中不支持自定义类型，需要扩展
 declare module 'axios'{
     export interface AxiosRequestConfig {
-        noParamsKey?: string
+        noParamsKey?: boolean
     }
 }
 
@@ -62,7 +62,7 @@ const getAxiosService = (uri: string) => {
                         .loading(
                             '会话失效，请重新登录',
                             2.5,
-                            () => window.location.replace(SSO_BASE_URL))
+                            () => window.location.replace(SSO_LOGIN_URL))
                         .then(
                             () => {
                             },
