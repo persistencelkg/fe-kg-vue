@@ -5,7 +5,6 @@ import {MenuTree} from "../../third/sso/resp.ts";
 import {Layout} from "ant-design-vue";
 
 
-
 // 路由实例
 
 
@@ -54,17 +53,14 @@ export const grantStore: StoreDefinition = defineStore('grant', {
             routes: []
         }
     ),
-    getters: {
-
-    },
+    getters: {},
     actions: {
         generateRoutesFromAuth() {
             fetchPermission({sys_key: 'admin'})
                 .then(resp => {
                     const loadMenuData = resp.menu_trees || [] || undefined
                     const addRoutes = generaMenu(loadMenuData)
-                    addRoutes.push({path: '*', redirect: '/', hidden: true})
-                    this.routes = [].concat(addRoutes)
+                    this.routes = [{path: '*', redirect: '/', hidden: true}].concat(addRoutes)
                 })
                 .catch(err => {
                     console.log('generateRoutesFromAuth 错误:', err)
