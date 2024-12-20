@@ -3,7 +3,7 @@
 
 defineProps<{ msg: string }>()
 
-// const count = ref(0)
+// basic count = ref(0)
 </script>
 
 <template>

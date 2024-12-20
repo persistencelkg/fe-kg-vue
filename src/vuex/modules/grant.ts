@@ -1,37 +1,45 @@
 import {defineStore, StoreDefinition} from "pinia";
 import {fetchPermission} from "../../third/sso/sso.ts";
 import {loadView} from "../../const/const.ts";
+import {MenuTree} from "../../third/sso/resp.ts";
+import {Layout} from "ant-design-vue";
 
-function getFirstPathFromChildren(childrenRoutes) {
+
+// 路由实例
+
+
+// 生成树
+const getFirstPathFromChildren = (childrenRoutes: MenuTree[]) => {
     const route = childrenRoutes[0]
     const children = route.children
     const firstRoute = route
     if (children.length) {
-        return getFirstPathFromChildre(children)
+        return getFirstPathFromChildren(children)
     }
     return firstRoute
 }
 
 
-const generaMenu = (routes: string[]) => {
-    const arr = []
+const generaMenu = (routes: MenuTree[]) => {
+    const arr: any = []
     routes.forEach(item => {
         const {url, children, name, icon} = item
         const hasChild = children && children.length
         const viewPath = hasChild ? getFirstPathFromChildren(children).url : url
         const menu = {
             path: url,
-            component: hasChild ? (item.parent_id === 0 ? Layout : AppMain) : loadView(viewPath),
+            component: hasChild ? (item.parent_id === 0 ? Layout : Layout) : loadView(viewPath),
             children: [],
             name,
             meta: {
                 title: name,
                 icon: icon,
                 noCache: true
-            }
+            },
+            redirect: ''
         }
         if (hasChild) {
-            menu.redirect = getFirstPathFromChildre(children).url
+            menu.redirect = getFirstPathFromChildren(children).url
             menu.children = generaMenu(item.children)
         }
         arr.push(menu)
@@ -45,17 +53,14 @@ export const grantStore: StoreDefinition = defineStore('grant', {
             routes: []
         }
     ),
-    getters: {
-
-    },
+    getters: {},
     actions: {
         generateRoutesFromAuth() {
             fetchPermission({sys_key: 'admin'})
                 .then(resp => {
                     const loadMenuData = resp.menu_trees || [] || undefined
                     const addRoutes = generaMenu(loadMenuData)
-                    addRoutes.push({path: '*', redirect: '/', hidden: true})
-                    state.routes = [].concat(addRoutes)
+                    this.routes = [{path: '*', redirect: '/', hidden: true}].concat(addRoutes)
                 })
                 .catch(err => {
                     console.log('generateRoutesFromAuth 错误:', err)
