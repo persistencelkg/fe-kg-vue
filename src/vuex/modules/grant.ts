@@ -60,7 +60,8 @@ export const grantStore: StoreDefinition = defineStore('grant', {
                 .then(resp => {
                     const loadMenuData = resp.menu_trees || [] || undefined
                     const addRoutes = generaMenu(loadMenuData)
-                    this.routes = [{path: '*', redirect: '/', hidden: true}].concat(addRoutes)
+                    // {path: '*', redirect: '/', hidden: true}
+                    this.routes = [].concat(addRoutes)
                 })
                 .catch(err => {
                     console.log('generateRoutesFromAuth 错误:', err)

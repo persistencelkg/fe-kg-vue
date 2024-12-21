@@ -1,11 +1,11 @@
 import {defineStore} from 'pinia'
 import {loginCheck, loginOut} from "../../third/sso/sso.ts";
-import {router} from "./vue-router.ts";
+import {addDynamicRoute} from "./vue-router.ts";
 import {SSO_LOGIN_URL} from "../../const/const.ts";
 import {grantStore} from "./grant.ts";
 import {RouteRecordRaw} from "vue-router";
 
-const grant = grantStore()
+
 
 export const userStore = defineStore('usr', {
     state: () => ({
@@ -24,10 +24,11 @@ export const userStore = defineStore('usr', {
                 this.userId = res.userId
                 this.userName = res.userName
                 this.avatar = res.avatar
+                const grant = grantStore()
                 // generate accessible routes map based on roles
                 const accessRoutes:RouteRecordRaw[] = await grant.generateRoutesFromAuth()
                 accessRoutes.forEach((route) => {
-                    router.addRoute(route)
+                   addDynamicRoute(route)
                 })
                 // dynamically add accessible routes
                 return {accessToken: res.accessToken}
