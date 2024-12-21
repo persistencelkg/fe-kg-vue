@@ -1,18 +1,7 @@
 <script setup lang="ts">
-import {onMounted, ref} from 'vue';
-import {
-  UserOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  DownOutlined,
-  DeleteOutlined,
-  LogoutOutlined,
-  AppstoreOutlined,
-  UploadOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons-vue'
+import {ref} from 'vue';
+import {MenuFoldOutlined, MenuUnfoldOutlined,} from '@ant-design/icons-vue'
 import {SYSTEM_INFO} from "../../const/const.ts";
-import {useRoute} from "vue-router";
 
 
 const selectedKeys = ref(['1']);

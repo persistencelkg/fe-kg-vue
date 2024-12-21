@@ -11,7 +11,7 @@ import Index from "./views/home/index.vue";
 const route = useRoute();
 
 watch(() => route.path, (newPath) => {
-  console.log('路由路径变化：', newPath);
+  console.log('APP.vue：', route.path, newPath);
 });
 
 </script>
@@ -27,9 +27,9 @@ watch(() => route.path, (newPath) => {
 <!--    LKG:{{ lkg }}-->
 <!--    WKX:{{ wkx}}-->
 <!--  </div>-->
-<!--  <router-view></router-view>-->
+  <router-view/>
 
-  <Index/>
+<!--  <Index/>-->
 </template>
 
 <style scoped>

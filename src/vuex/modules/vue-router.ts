@@ -1,5 +1,4 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
-import {Layout} from "ant-design-vue";
 import {loadView} from "../../const/const.ts";
 // import index from "../../views/home/index.vue";
 
@@ -23,25 +22,6 @@ const constantRoutes: Array<RouteRecordRaw> = [
         component: loadView('/')
 
     },
-    {
-        path: '/a3',
-        name: "F1",
-        component: loadView('a2/F1'),
-        meta: {title: '首页2', icon: 'dashboard', keepAlive: true}
-
-    },
-    {
-        path: '/a2',
-        redirect: '/a2path',
-        component: null,
-        children: {
-            name: "a2path",
-            path: 'a2path',
-            component: loadView('a2/F1'),
-        },
-
-        meta: {title: '首页', icon: 'dashboard', keepAlive: true}
-    },
     // {
     //     path: '/:catchAll(.*)',
     //     component: loadView('basic/NotFound')
@@ -49,17 +29,28 @@ const constantRoutes: Array<RouteRecordRaw> = [
     // },
     {
         path: '/',
-        component: null,
-        redirect: '/home',
+        name: 'index',
+        component: loadView('home/index'),
+        // redirect: '/home',
         children: [
             {
-                path: 'home',
-                // component: index 静态导入
-                // 动态替换v1
-                // component:  () => import('../../views/home/index.vue'),
-                component: loadView('home/index'),
-                name: 'index',
-                meta: {title: '首页', icon: 'dashboard', affix: true, keepAlive: true}
+                path: '/a3',
+                name: "F1",
+                component: loadView('a2/F1'),
+                meta: {title: '首页2', icon: 'dashboard', keepAlive: false}
+
+            },
+            {
+                path: '/a2',
+                name: "a2",
+                component: loadView('a2/a2path/index'),
+                // children: [{
+                //     name: "a2path",
+                //     path: 'a2path', // 如果为'' 代表可以渲染a2
+                //     component: loadView('a2/a2path/index'),
+                // }],
+
+                meta: {title: '首页', icon: 'dashboard', keepAlive: false}
             },
 
         ]
@@ -73,7 +64,7 @@ export const addDynamicRoute = (route: RouteRecordRaw) => {
 }
 
 // common
-addDynamicRoute( { path: '*', redirect: '/', hidden: true });
+addDynamicRoute({path: '*', redirect: '/'});
 
 
 // 创建vue路由实例
@@ -86,8 +77,7 @@ export const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
-    console.log('to:', to.path)
-    console.log('from:', from.path)
+    console.log('from:[', from.path, ']--> to:[', to.path, ']')
     // next()
     next()
 })
