@@ -2,6 +2,7 @@ import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRe
 // import { ElMessage, ElMessageBox } from 'element-plus'
 import {message} from 'ant-design-vue'
 import {SSO_LOGIN_URL} from "../const/const.ts";
+import humps from "humps";
 
 
 const httpCode: Record<number, string> = {
@@ -16,9 +17,11 @@ const httpCode: Record<number, string> = {
 }
 
 // ts 中不支持自定义类型，需要扩展
-declare module 'axios'{
+declare module 'axios' {
     export interface AxiosRequestConfig {
-        noParamsKey?: boolean
+        noParamsKey?: boolean,
+        // 是否开启驼峰转下划线，默认驼峰
+        underlineKey?: boolean
     }
 }
 
@@ -91,12 +94,12 @@ const getAxiosService = (uri: string) => {
     // 封装 get 请求
     const get = <T>(url: string, params?: object, config: AxiosRequestConfig = {}) => {
         return new Promise<T>((resolve, reject) => {
-                service({
-                    method: 'get',
-                    url,
-                    params,
-                    ...config
-                })
+            service({
+                method: 'get',
+                url,
+                params,
+                ...config
+            })
                 .then((response) => resolve(response as unknown as T))
                 .catch((error) => reject(error))
         })
@@ -105,14 +108,24 @@ const getAxiosService = (uri: string) => {
     // 封装 post 请求
     const post = <T>(url: string, data: object = {}, config: AxiosRequestConfig = {}) => {
         return new Promise<T>((resolve, reject) => {
+            const paramWrapData = config.noParamsKey ? data : {params: data}
+            const camelWrapData = config.underlineKey ? humps.decamelizeKeys(paramWrapData) : paramWrapData
             const options = {
                 method: 'post',
                 url,
-                data: config.noParamsKey ? data : {params: data},
+                data: camelWrapData,
                 ...config
             }
             service(options)
-                .then((response) => resolve(response as unknown as T))
+                .then((response) => {
+                    if (response && config.underlineKey) {
+                        console.log('pre parse resp;', response)
+                        const wrapResp = humps.decamelizeKeys(response)
+                        resolve(wrapResp as unknown as T)
+                    } else {
+                        resolve(response as unknown as T)
+                    }
+                })
                 .catch((error) => reject(error))
         })
     }

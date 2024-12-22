@@ -1,6 +1,6 @@
 
 
-export const SSO_LOGIN_URL = `${import.meta.env.VUE_APP_BASE_SSO_URL}/#/login?ref=${window.location.origin}`
+export const SSO_LOGIN_URL = `${import.meta.env.VITE_APP_BASE_SSO_URL}/#/login?ref=${window.location.origin}`
 
 
 export const SYSTEM_INFO = {
