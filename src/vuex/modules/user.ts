@@ -14,7 +14,8 @@ export const userStore = defineStore('usr', {
         avatar: '',
         orgId: '',
         roles: [] as string[],
-        grants: [] as string[]
+        grants: [] as string[],
+        token: ''
     }),
     // 通用用于网络交互rpc，无返回值的业务逻辑，修改state，写操作为主
     actions: {
@@ -30,6 +31,7 @@ export const userStore = defineStore('usr', {
                 accessRoutes.forEach((route) => {
                    addDynamicRoute(route)
                 })
+                this.token = res.accessToken
                 // dynamically add accessible routes
                 return {accessToken: res.accessToken}
             } catch (e) {
@@ -47,5 +49,7 @@ export const userStore = defineStore('usr', {
         }
     },
     // 用户计算属性，响应式交互，有返回值，读写操作都有
-    getters: {},
+    getters: {
+
+    },
 })
