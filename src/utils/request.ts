@@ -2,7 +2,7 @@ import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRe
 // import { ElMessage, ElMessageBox } from 'element-plus'
 import {message} from 'ant-design-vue'
 import {SSO_LOGIN_URL} from "../const/const.ts";
-import humps from "humps";
+import humps from 'humps';
 
 
 const httpCode: Record<number, string> = {
@@ -29,7 +29,7 @@ const getAxiosService = (uri: string) => {
     const service: AxiosInstance = axios.create(
         {
             baseURL: uri,
-            withCredentials: true, // 允许跨域携带cookie
+            // withCredentials: true, // 允许跨域携带cookie
             timeout: 3000,
             headers: {
                 'Content-Type': 'application/json'
@@ -71,9 +71,11 @@ const getAxiosService = (uri: string) => {
                             },
                             () => message.error(errMsg, 2.5)
                         )
-                    return Promise.reject(data)
+                    return Promise.reject(message)
                 case 1002:
-                    return Promise.reject(data)
+                    return Promise.reject(message)
+                default:
+                    return Promise.reject(message)
             }
         },
         (err) => {
@@ -107,6 +109,7 @@ const getAxiosService = (uri: string) => {
 
     // 封装 post 请求
     const post = <T>(url: string, data: object = {}, config: AxiosRequestConfig = {}) => {
+
         return new Promise<T>((resolve, reject) => {
             const paramWrapData = config.noParamsKey ? data : {params: data}
             const camelWrapData = config.underlineKey ? humps.decamelizeKeys(paramWrapData) : paramWrapData
@@ -116,10 +119,11 @@ const getAxiosService = (uri: string) => {
                 data: camelWrapData,
                 ...config
             }
+            console.log('req:', uri, options.url)
             service(options)
                 .then((response) => {
+                    console.log('pre parse resp:', response)
                     if (response && config.underlineKey) {
-                        console.log('pre parse resp;', response)
                         const wrapResp = humps.decamelizeKeys(response)
                         resolve(wrapResp as unknown as T)
                     } else {

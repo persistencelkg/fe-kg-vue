@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia'
-import {loginCheck, loginOut} from "../../third/sso/sso.ts";
+import {loginCheck, loginOut} from "../../third/sso_auth/sso.ts";
 import {addDynamicRoute} from "./vue-router.ts";
 import {SSO_LOGIN_URL} from "../../const/const.ts";
 import {grantStore} from "./grant.ts";
