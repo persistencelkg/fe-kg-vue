@@ -21,6 +21,17 @@ export default defineConfig(({mode}) => {
             alias: {
                 '@': path.resolve(__dirname, 'src'), // 确保 @ 指向 src
             },
+        },
+        server: {
+            // port: 5371,
+
+            // proxy:{
+            //     "/api-name": {
+            //         target: "http://localhost:9000",
+            //         changeOrigin: true,
+            //         rewrite: (path) => path.replace(/^\/api-name/, '')
+            //     }
+            // }
         }
     }
 })

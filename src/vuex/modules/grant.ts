@@ -1,7 +1,7 @@
 import {defineStore, StoreDefinition} from "pinia";
-import {fetchPermission} from "../../third/sso/sso.ts";
+import {fetchPermission} from "../../third/sso_auth/sso.ts";
 import {loadView} from "../../const/const.ts";
-import {MenuTree} from "../../third/sso/resp.ts";
+import {MenuTree} from "../../third/sso_auth/resp.ts";
 import {Layout} from "ant-design-vue";
 
 
