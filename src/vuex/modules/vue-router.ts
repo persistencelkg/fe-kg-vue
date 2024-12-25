@@ -20,7 +20,7 @@ const constantRoutes: Array<RouteRecordRaw> = [
     {
         path: '/login',
         name: "login",
-        component: loadView('/')
+        component: loadView('home/login')
 
     },
     // {
@@ -60,8 +60,11 @@ const constantRoutes: Array<RouteRecordRaw> = [
 
 const dynamicRouter: RouteRecordRaw[] = []
 
-export const addDynamicRoute = (route: RouteRecordRaw) => {
-    dynamicRouter.push(route)
+export const addDynamicRoute = (route?: RouteRecordRaw) => {
+    if (route) {
+        dynamicRouter.push(route)
+    }
+    return dynamicRouter
 }
 
 // common
@@ -91,7 +94,8 @@ router.beforeEach(async (to, from, next) => {
         if (res.accessToken && res.accessToken.length > 0) {
             next({path: '/'})
         } else {
-            // window.location.replace(ssoURL) 跳转到登录页
+            // 跳转到登录页 后续 需要提供html 登录页
+            // window.location.replace(SSO_LOGIN_URL)
             next()
         }
     }
