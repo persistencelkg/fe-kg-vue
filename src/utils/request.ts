@@ -2,6 +2,7 @@ import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRe
 // import { ElMessage, ElMessageBox } from 'element-plus'
 import {message} from 'ant-design-vue'
 import {SSO_LOGIN_URL} from "../const/const.ts";
+//@ts-ignored
 import humps from 'humps';
 
 
@@ -127,7 +128,8 @@ const getAxiosService = (uri: string) => {
                         const wrapResp = humps.decamelizeKeys(response)
                         resolve(wrapResp as unknown as T)
                     } else {
-                        resolve(response as unknown as T)
+                        const wrapResp = humps.camelizeKeys(response)
+                        resolve(wrapResp as unknown as T)
                     }
                 })
                 .catch((error) => reject(error))

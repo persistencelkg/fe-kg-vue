@@ -12,15 +12,18 @@ export interface LoginOutResp{
 
 
 export interface MenuTree{
-    parent_id: number,
-    hash: string,
-    url: string,
+    parentId: number,
+    key: string,
+    // route uri
+    uri: string,
     children: MenuTree[],
     name: string,
-    icon: string
+    icon: string,
+    // 菜单类型
+    type: number
 }
 
 export interface AuthListResp {
     userId: number,
-    menu_trees: MenuTree[]
+    menuTree: MenuTree[]
 }

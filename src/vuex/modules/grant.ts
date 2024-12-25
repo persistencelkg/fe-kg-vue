@@ -3,6 +3,8 @@ import {fetchPermission} from "../../third/sso_auth/sso.ts";
 import {loadView} from "../../const/const.ts";
 import {MenuTree} from "../../third/sso_auth/resp.ts";
 import {Layout} from "ant-design-vue";
+import {addDynamicRoute} from "./vue-router.ts";
+import {RouteRecordRaw} from "vue-router";
 
 
 // 路由实例
@@ -20,15 +22,16 @@ const getFirstPathFromChildren = (childrenRoutes: MenuTree[]) => {
 }
 
 
+// TODO 后续如果后端支持了动态菜单，需要灵活调整改方法
 const generaMenu = (routes: MenuTree[]) => {
-    const arr: any = []
-    routes.forEach(item => {
-        const {url, children, name, icon} = item
+    const arr: RouteRecordRaw[] = []
+    routes?.forEach(item => {
+        const {uri, children, name, icon} = item
         const hasChild = children && children.length
-        const viewPath = hasChild ? getFirstPathFromChildren(children).url : url
-        const menu = {
-            path: url,
-            component: hasChild ? (item.parent_id === 0 ? Layout : Layout) : loadView(viewPath),
+        const viewPath = hasChild ? getFirstPathFromChildren(children).uri : uri
+        const menu:RouteRecordRaw = {
+            path: uri,
+            component: hasChild ? (item.parentId === 0 ? Layout : Layout) : loadView(viewPath),
             children: [],
             name,
             meta: {
@@ -39,7 +42,7 @@ const generaMenu = (routes: MenuTree[]) => {
             redirect: ''
         }
         if (hasChild) {
-            menu.redirect = getFirstPathFromChildren(children).url
+            menu.redirect = getFirstPathFromChildren(children).uri
             menu.children = generaMenu(item.children)
         }
         arr.push(menu)
@@ -50,7 +53,7 @@ const generaMenu = (routes: MenuTree[]) => {
 export const grantStore: StoreDefinition = defineStore('grant', {
     state: () => (
         {
-            routes: []
+            routes: [] as RouteRecordRaw[],
         }
     ),
     getters: {},
@@ -58,10 +61,13 @@ export const grantStore: StoreDefinition = defineStore('grant', {
         generateRoutesFromAuth() {
             fetchPermission({sys_key: 'admin'})
                 .then(resp => {
-                    const loadMenuData = resp.menu_trees || [] || undefined
+                    const loadMenuData = resp?.menuTree || [] || undefined
                     const addRoutes = generaMenu(loadMenuData)
-                    // {path: '*', redirect: '/', hidden: true}
-                    this.routes = [].concat(addRoutes)
+                    const cont = addDynamicRoute()
+                    if (addRoutes) {
+                        cont.concat(addRoutes)
+                    }
+                    this.routes = cont
                 })
                 .catch(err => {
                     console.log('generateRoutesFromAuth 错误:', err)

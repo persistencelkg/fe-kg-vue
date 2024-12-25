@@ -22,16 +22,22 @@ export const userStore = defineStore('usr', {
         ssoLoginCheck: async function (params: any) {
             try {
                 const res = await loginCheck(params)
+                if (!res) {
+                    return {accessToken: undefined}
+                }
                 this.userId = res.userId
                 this.userName = res.userName
                 this.avatar = res.avatar
                 const grant = grantStore()
                 // generate accessible routes map based on roles
-                const accessRoutes:RouteRecordRaw[] = await grant.generateRoutesFromAuth()
-                accessRoutes.forEach((route) => {
+                const accessRoutes:RouteRecordRaw[] = await grant.generateRoutesFromAuth() as RouteRecordRaw[]
+                // ？简化if判断 无值不处理
+                accessRoutes?.forEach((route) => {
                    addDynamicRoute(route)
                 })
                 this.token = res.accessToken
+                res.accessToken = ''
+                console.log('login check res', res);
                 // dynamically add accessible routes
                 return {accessToken: res.accessToken}
             } catch (e) {

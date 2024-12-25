@@ -1,5 +1,5 @@
 
-
+// 这是统一接入的登录页url
 export const SSO_LOGIN_URL = `${import.meta.env.VITE_APP_BASE_SSO_URL}/#/login?ref=${window.location.origin}`
 
 

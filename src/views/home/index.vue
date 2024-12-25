@@ -1,22 +1,10 @@
-<!--  <HelloWorld msg="LKG"/>-->
-
 <script setup lang="ts">
 import BasicLayout from "../../components/layout/BasicLayout.vue"
 import {UploadOutlined, UserOutlined, VideoCameraOutlined} from '@ant-design/icons-vue'
 import {defineComponent, onMounted, ref, watch} from "vue"
 import {useRoute, useRouter} from "vue-router"
-import humps from "humps"
-import {GraySwitchVo} from "../../third/gray/resp.ts";
-// 改行为会影响 route 路由结果
+// 可胜率
 defineComponent({})
-
-
-const aName: GraySwitchVo = {
-  switchName: '22',
-  serverName: "hhhh"
-}
-// 驼峰转下划线
-console.log(aName, '转换后', humps.decamelizeKeys(aName))
 
 
 //路由mock
