@@ -23,9 +23,9 @@ const menuItems = ref([
   },
   {
     id: 3,
-    name: '数据分析',
+    name: '灰度管理',
     icon: UploadOutlined,
-    path: '/'
+    path: '/gray/base'
   },
 ])
 
