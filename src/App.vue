@@ -29,6 +29,7 @@ watch(() => route.path, (newPath) => {
 <!--  </div>-->
   <router-view/>
 
+
 <!--  <Index/>-->
 </template>
 

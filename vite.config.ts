@@ -14,7 +14,7 @@ export default defineConfig(({mode}) => {
         envDir: envDir,
         define: {
             //
-            'process.env': env ,
+            'process.env': env,
             // __APP_ENV__: JSON.stringify(env.APP_ENV),
         },
         resolve: {
@@ -24,14 +24,9 @@ export default defineConfig(({mode}) => {
         },
         server: {
             // port: 5371,
-
-            // proxy:{
-            //     "/api-name": {
-            //         target: "http://localhost:9000",
-            //         changeOrigin: true,
-            //         rewrite: (path) => path.replace(/^\/api-name/, '')
-            //     }
-            // }
+            https: false,
+            proxy: {
+            }
         }
     }
 })

@@ -42,6 +42,12 @@ const constantRoutes: Array<RouteRecordRaw> = [
 
             },
             {
+                path: '/gray/base',
+                name: "grayBaseIndex",
+                component: loadView('gray/base/index'),
+                meta: {title: '恢复服务', icon: 'dashboard'}
+            },
+            {
                 path: '/a2',
                 name: "a2",
                 component: loadView('a2/a2path/index'),
