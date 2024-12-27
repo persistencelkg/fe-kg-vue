@@ -4,12 +4,14 @@ import {MenuFoldOutlined, MenuUnfoldOutlined,} from '@ant-design/icons-vue'
 import {SYSTEM_INFO} from "../../const/const.ts";
 
 
-const selectedKeys = ref(['1']);
+const selectedKeys = ref(['2']);
 const collapsed = ref(false);
 
 const state = ref({
   theme: 'dark'
 })
+// console.log('枚举策略测试:', EnumTest.isAdmin(EnumTest.ADMIN))
+// console.log('枚举策略测试:', EnumTest.isAdmin(EnumTest.VIE))
 
 
 </script>
