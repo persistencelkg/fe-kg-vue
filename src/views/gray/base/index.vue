@@ -1,8 +1,7 @@
 <script setup lang="ts">
 
-import {reactive} from "vue";
-import SelectToSelect from "../../../components/form/SelectToSelect.vue";
-import {SelectProps} from "ant-design-vue";
+import {reactive, ref} from "vue";
+import SelectToSelect, {compose, selectOptionType} from "../../../components/form/SelectToSelect.vue";
 
 const formState = reactive({
   price: {
@@ -21,13 +20,64 @@ const checkPrice = (a: any, value: { number: number }) => {
   return Promise.reject(new Error('Price must be greater than zero!'));
 };
 
+// 选项 - option
+const options = ref<compose[]>([
+  {
+    id: 1,
+    key: 'f1',
+    value: 'jack',
+    label: 'Jack (100)',
+  },
+  {
+    id: 2,
+    key: 'f2',
+    value: 'lucy',
+    label: 'Lucy (101)',
+  },
+]);
 
-// const handleChange: SelectProps['onChange'] = value => {
-//   console.log('select ->', value); // { key: "lucy", label: "Lucy (101)" }
-// };  有了组件干预，下面可以直接平替
-const handleChange2 = (value: any) => {
-  console.log('select2 ->', value); // { key: "lucy", label: "Lucy (101)" }
+const cascadeData: { [key: string]: compose[] } = {
+  f1: [
+    {
+      id: 2,
+      key: '1',
+      value: 'f1 111',
+      label: 'f1 (101)',
+    },
+    {
+      id: 3,
+      key: '1',
+      value: 'f1 222',
+      label: 'f1 (102)',
+    }
+  ],
+  f2: [
+    {
+      id: 33,
+      key: '1',
+      value: 'f2 111',
+      label: 'f2 (101)',
+    },
+    {
+      id: 44,
+      key: '1',
+      value: 'f2 222',
+      label: 'f2 (102)',
+    }
+  ]
+}
+
+const main = ref<compose>(options.value[0])
+const defaultCascade = ref<compose | undefined>(undefined);
+const getA2Options = (a1Value: selectOptionType) => {
+  if (!a1Value) {
+    return []
+  }
+  // todo 后续需要替换的后端数据
+  return cascadeData[a1Value.key]
 };
+
+
 </script>
 
 
@@ -42,7 +92,10 @@ const handleChange2 = (value: any) => {
             <a-input type="text" style="width: 100px"/>
           </a-form-item>
 
-          <SelectToSelect @select-change="handleChange2"/>
+          <SelectToSelect :main-model="main"
+                          :cascade-model="defaultCascade"
+                          :main-option="options"
+                          :cascade-fun="getA2Options"/>
           <a-form-item>
             <a-button type="primary" html-type="submit">搜索</a-button>
             <a-button type="primary" html-type="submit">重置</a-button>
