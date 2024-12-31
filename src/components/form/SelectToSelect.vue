@@ -3,7 +3,7 @@
 
 
 // 能用interface 就用interface 不能就用type 二者可以互相切换、继承
-import {computed, ref, watch} from "vue";
+import {computed, ref} from "vue";
 import {DefaultOptionType} from "ant-design-vue/es/vc-cascader";
 
 // & 继承
@@ -14,9 +14,9 @@ export type compose = DefaultOptionType & selectOptionType
 // 定义父组件传来的属性名
 // 通过定义属性a 由父组件传值，然后当a变化，其余变量跟着变化
 const props = defineProps<{
-  mainModel?: selectOptionType,
-  cascadeModel?: compose | undefined,
-  mainOption: DefaultOptionType[] ,
+  mainModel?: compose,
+  cascadeModel?: compose,
+  mainOption: compose[] ,
   cascadeFun: (arg: selectOptionType) => compose[]
 }>()
 
@@ -46,7 +46,7 @@ const cascade = ref(props.cascadeModel)
 // 当主select 变化，触发 次select 选项计算
 const cascadeOption = computed(() => {
   // console.log('props.mainModel',main.value)
-  if (!props || !main) {
+  if (!props || !main || !main.value) {
     return []
   }
   const optionTypes = props.cascadeFun(main.value);
