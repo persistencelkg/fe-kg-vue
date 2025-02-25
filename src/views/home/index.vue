@@ -11,19 +11,19 @@ defineComponent({})
 const menuItems = ref([
   {
     id: 1,
-    name: '系统导航',
+    name: '规则管理',
     icon: UserOutlined,
     path: '/a2' // 对应路由的path 要1:1
   },
   {
     id: 2,
-    name: '日志管理',
+    name: '自定义表格',
     icon: VideoCameraOutlined,
     path: '/a3'
   },
   {
     id: 3,
-    name: '灰度管理',
+    name: '自定义级联组件',
     icon: UploadOutlined,
     path: '/gray/base'
   },
@@ -68,8 +68,7 @@ const menuClicked = (/*@vite-ignore item:any, key:number,*/ keyPath:string) => {
         <span>{{ item.name }}</span>
       </a-menu-item>
     </template>
-    <template #contentSlot>
-      <router-view/>
+
 <!--      下面这个做法每次从根目录出发访问是没有问题的，一旦子路由自己互相访问，就会丢失渲染，看起来都是内容区都是空白页 -->
 <!--      <router-view v-slot="{ Component }">-->
 <!--        <transition name="fade-transform" mode="out-in">-->
@@ -78,6 +77,9 @@ const menuClicked = (/*@vite-ignore item:any, key:number,*/ keyPath:string) => {
 <!--          </keep-alive>-->
 <!--        </transition>-->
 <!--      </router-view>-->
+
+    <template #contentSlot>
+      <router-view/>
     </template>
 
   </BasicLayout>

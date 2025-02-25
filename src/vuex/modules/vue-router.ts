@@ -35,10 +35,11 @@ const constantRoutes: Array<RouteRecordRaw> = [
         // redirect: '/home',
         children: [
             {
-                path: '/a3',
+                path: '/a3',  // 将来决定跳转的位置
                 name: "F1",
                 component: loadView('a2/F1'),
-                meta: {title: '首页2', icon: 'dashboard', keepAlive: false}
+
+                meta: {title: '首页2', icon: 'dashboard', keepAlive: false}  // 动态标题、图标
 
             },
             {

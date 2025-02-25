@@ -18,8 +18,8 @@ const state = ref({
 
 
 <template>
-  <a-layout :style="{ height: '100vh', width: '100%' }">
-    <a-layout-sider :style="{ overflow: 'auto', height: '100vh' }" v-model:collapsed="collapsed">
+  <a-layout >
+    <a-layout-sider :style="{ overflow: 'auto', width:'100px', height: '100vh'}" v-model:collapsed="collapsed">
       <div class="logo">
         <img src="/vite.svg" class="logo_img" alt="Vite logo"/>
         <span class="logo_text" v-show="!collapsed">{{ SYSTEM_INFO.appName }}</span>
@@ -29,7 +29,8 @@ const state = ref({
         <slot name="menuSlot"></slot>
       </a-menu>
     </a-layout-sider>
-    <a-layout>
+    <!-- :style="{background: '#fff'}" -->
+    <a-layout >
       <a-layout-header style="background: #fff; padding: 0; height: 50px;">
         <MenuUnfoldOutlined
             v-if="collapsed"
@@ -38,8 +39,9 @@ const state = ref({
         />
         <MenuFoldOutlined v-else class="trigger" @click="() => (collapsed = !collapsed)"/>
       </a-layout-header>
+<!--      margin : 上 右 下 左-->
       <a-layout-content
-          :style="{  margin: '12px 10px', padding: '18px', background: '#fff', minHeight: '280px', borderRadius: '4px' }"
+          :style="{  margin: '20px 30px', padding: '18px', background: '#fff', minHeight: '280px', borderRadius: '3px' }"
       >
         <slot name="contentSlot"></slot>
       </a-layout-content>
