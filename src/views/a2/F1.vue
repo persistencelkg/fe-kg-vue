@@ -1,13 +1,14 @@
 <template>
   <a-table :columns="columns" :data-source="dataSource">
     <!-- 自定义操作列 -->
-    <template #action="{ record }">
-      <a-button type="primary" @click="handleEdit(record)">编辑</a-button>
-      <a-button type="danger" @click="handleDelete(record)">删除</a-button>
-    </template>
-    <!-- 自定义姓名列，添加额外的样式 -->
-    <template #name="{ record }">
-      <span style="color: blue">{{ record.name }}</span>
+    <template #bodyCell="{ column, record }">
+      <template v-if="column.key === 'action'">
+        <a-button type="primary" @click="handleEdit(column)">编辑</a-button>
+        <a-button type="danger" @click="handleDelete(column)">删除</a-button>
+      </template>
+      <template v-else-if="column.key === 'name'">
+        <span style="color: blue">{{ record.name }}</span>
+      </template>
     </template>
   </a-table>
 </template>
@@ -37,9 +38,7 @@ const columns = [
   {
     title: '姓名',
     dataIndex: 'name',
-    key: 'name',
-    // 使用插槽名称
-    slots: {customRender: 'name'}
+    key: 'name'
   },
   {
     title: '年龄',
@@ -53,9 +52,7 @@ const columns = [
   },
   {
     title: '操作',
-    key: 'action',
-    // 使用插槽名称
-    slots: {customRender: 'action'}
+    key: 'action'
   }
 ];
 

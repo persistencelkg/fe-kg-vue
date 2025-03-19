@@ -16,10 +16,13 @@
     </a-form>
     <a-button type="primary" @click="showModal">新增</a-button>
     <a-table :columns="columns" :data-source="ruleList">
-      <template #action="{ record }">
-        <a-button style="background-color: lightgreen" type="primary" @click.prevent="editRule(record)">修改</a-button>
-        <a-divider type="vertical"/>
-        <a-button type="primary" @click.prevent="deleteRule(record)">删除</a-button>
+       <!--      bodyCell 只能结构text, record, index, column  -->
+      <template #bodyCell="{ column }">
+        <template v-if="column.key === 'action'">
+          <a-button style="background-color: lightgreen" type="primary" @click.prevent="editRule(column)">修改</a-button>
+          <a-divider type="vertical"/>
+          <a-button type="primary" @click.prevent="deleteRule(column)">删除</a-button>
+        </template>
       </template>
     </a-table>
     <EditRuleModal v-model:visible="modalVisible" @ok="handleModalOk"/>
@@ -53,37 +56,44 @@ const modalVisible = ref(false);
 const columns = [
   {
     title: '服务名称',
+    key: 'serviceName',
     dataIndex: 'serviceName'
   },
   {
     title: '开关名称',
+    key: 'switchName',
     dataIndex: 'switchName'
   },
   {
     title: '灰度控制状态',
+    key: 'grayControlStatus',
     dataIndex: 'grayControlStatus'
   },
   {
     title: '全局开关范围',
+    key: 'globalSwitchRange',
     dataIndex: 'globalSwitchRange'
   },
   {
     title: '版本',
+    key: 'version',
     dataIndex: 'version'
   },
   {
     title: '所属组',
+    key: 'group',
     dataIndex: 'group'
   },
   {
     title: '更新时间',
-    dataIndex: 'updateTime'
+    dataIndex: 'updateTime',
+    key: 'updateTime'
   },
   {
     title: '操作',
     key: 'action',
-    // 使用插槽名称
-    slots: {customRender: 'action'}
+    // 使用插槽名称 v3已经弃用
+    // slots: {customRender: 'action'}
   }
 ];
 
