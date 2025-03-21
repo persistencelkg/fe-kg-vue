@@ -88,9 +88,9 @@ export const router = createRouter({
 
 
 router.beforeEach(async (to, from, next) => {
-    console.log('from:[', from.path, ']--> to:[', to.path, ']')
+    // console.log('from:[', from.path, ']--> to:[', to.path, ']') // 调试专用莫要删除
     next()
-    // ToDo 先判断本地缓存有没有
+    // ToDo SSO接入的做法 先判断本地缓存有没有
 
     //
     // const user = userStore();
